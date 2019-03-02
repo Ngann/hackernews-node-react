@@ -22,12 +22,6 @@ let idCount = links.length
 
 //As arguments, you’re passing the data that the resolvers receive via the args parameter.
 const resolvers = {
-  Query: {
-    info: () => `this is the API of hackernews Clone`,
-    feed: () => (root, args, context, info) =>{
-      return context.prisma.links()
-    },
-  },
   Mutation: {
     post: (root, args, context) => {
       return context.prisma.createLink({
