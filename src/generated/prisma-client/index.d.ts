@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export interface Exists {
   link: (where?: LinkWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
+  vote: (where?: VoteWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -83,6 +84,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => UserConnectionPromise;
+  vote: (where: VoteWhereUniqueInput) => VotePromise;
+  votes: (
+    args?: {
+      where?: VoteWhereInput;
+      orderBy?: VoteOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => FragmentableArray<Vote>;
+  votesConnection: (
+    args?: {
+      where?: VoteWhereInput;
+      orderBy?: VoteOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => VoteConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -121,6 +145,19 @@ export interface Prisma {
   ) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
+  createVote: (data: VoteCreateInput) => VotePromise;
+  updateVote: (
+    args: { data: VoteUpdateInput; where: VoteWhereUniqueInput }
+  ) => VotePromise;
+  upsertVote: (
+    args: {
+      where: VoteWhereUniqueInput;
+      create: VoteCreateInput;
+      update: VoteUpdateInput;
+    }
+  ) => VotePromise;
+  deleteVote: (where: VoteWhereUniqueInput) => VotePromise;
+  deleteManyVotes: (where?: VoteWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -136,6 +173,9 @@ export interface Subscription {
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
+  vote: (
+    where?: VoteSubscriptionWhereInput
+  ) => VoteSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -167,6 +207,14 @@ export type UserOrderByInput =
   | "email_DESC"
   | "password_ASC"
   | "password_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type VoteOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -302,8 +350,35 @@ export interface UserWhereInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  name?: String;
   email?: String;
 }>;
+
+export type VoteWhereUniqueInput = AtLeastOne<{
+  id: ID_Input;
+}>;
+
+export interface VoteWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  link?: LinkWhereInput;
+  user?: UserWhereInput;
+  AND?: VoteWhereInput[] | VoteWhereInput;
+  OR?: VoteWhereInput[] | VoteWhereInput;
+  NOT?: VoteWhereInput[] | VoteWhereInput;
+}
 
 export interface LinkCreateInput {
   description: String;
@@ -483,6 +558,63 @@ export interface UserUpdateManyMutationInput {
   password?: String;
 }
 
+export interface VoteCreateInput {
+  link: LinkCreateOneInput;
+  user: UserCreateOneInput;
+}
+
+export interface LinkCreateOneInput {
+  create?: LinkCreateInput;
+  connect?: LinkWhereUniqueInput;
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface VoteUpdateInput {
+  link?: LinkUpdateOneRequiredInput;
+  user?: UserUpdateOneRequiredInput;
+}
+
+export interface LinkUpdateOneRequiredInput {
+  create?: LinkCreateInput;
+  update?: LinkUpdateDataInput;
+  upsert?: LinkUpsertNestedInput;
+  connect?: LinkWhereUniqueInput;
+}
+
+export interface LinkUpdateDataInput {
+  description?: String;
+  url?: String;
+  postedBy?: UserUpdateOneWithoutLinksInput;
+}
+
+export interface LinkUpsertNestedInput {
+  update: LinkUpdateDataInput;
+  create: LinkCreateInput;
+}
+
+export interface UserUpdateOneRequiredInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  links?: LinkUpdateManyWithoutPostedByInput;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
 export interface LinkSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -503,6 +635,17 @@ export interface UserSubscriptionWhereInput {
   AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
   OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface VoteSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: VoteWhereInput;
+  AND?: VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput;
+  OR?: VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput;
+  NOT?: VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput;
 }
 
 export interface NodeNode {
@@ -710,6 +853,78 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Vote {
+  id: ID_Output;
+}
+
+export interface VotePromise extends Promise<Vote>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  link: <T = LinkPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface VoteSubscription
+  extends Promise<AsyncIterator<Vote>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  link: <T = LinkSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface VoteConnection {
+  pageInfo: PageInfo;
+  edges: VoteEdge[];
+}
+
+export interface VoteConnectionPromise
+  extends Promise<VoteConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<VoteEdge>>() => T;
+  aggregate: <T = AggregateVotePromise>() => T;
+}
+
+export interface VoteConnectionSubscription
+  extends Promise<AsyncIterator<VoteConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<VoteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateVoteSubscription>() => T;
+}
+
+export interface VoteEdge {
+  node: Vote;
+  cursor: String;
+}
+
+export interface VoteEdgePromise extends Promise<VoteEdge>, Fragmentable {
+  node: <T = VotePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface VoteEdgeSubscription
+  extends Promise<AsyncIterator<VoteEdge>>,
+    Fragmentable {
+  node: <T = VoteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateVote {
+  count: Int;
+}
+
+export interface AggregateVotePromise
+  extends Promise<AggregateVote>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateVoteSubscription
+  extends Promise<AsyncIterator<AggregateVote>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BatchPayload {
   count: Long;
 }
@@ -826,6 +1041,47 @@ export interface UserPreviousValuesSubscription
   password: () => Promise<AsyncIterator<String>>;
 }
 
+export interface VoteSubscriptionPayload {
+  mutation: MutationType;
+  node: Vote;
+  updatedFields: String[];
+  previousValues: VotePreviousValues;
+}
+
+export interface VoteSubscriptionPayloadPromise
+  extends Promise<VoteSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = VotePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = VotePreviousValuesPromise>() => T;
+}
+
+export interface VoteSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VoteSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = VoteSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = VotePreviousValuesSubscription>() => T;
+}
+
+export interface VotePreviousValues {
+  id: ID_Output;
+}
+
+export interface VotePreviousValuesPromise
+  extends Promise<VotePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+}
+
+export interface VotePreviousValuesSubscription
+  extends Promise<AsyncIterator<VotePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+}
+
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
@@ -870,6 +1126,10 @@ export const models: Model[] = [
   },
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Vote",
     embedded: false
   }
 ];
