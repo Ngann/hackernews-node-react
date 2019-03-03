@@ -615,7 +615,7 @@ graphql-tools@^4.0.0, graphql-tools@^4.0.4:
     iterall "^1.1.3"
     uuid "^3.1.0"
 
-graphql-yoga@^1.17.4:
+graphql-yoga@^1.17.2:
   version "1.17.4"
   resolved "https://registry.yarnpkg.com/graphql-yoga/-/graphql-yoga-1.17.4.tgz#6d325a6270399edf0776fb5f60a2e9e19512e63c"
   integrity sha512-zOXFtmS43xDLoECKiuA3xVWH/wLDvLH1D/5fBKcaMFdF43ifDfnA9N6dlGggqAoOhqBnrqHwDpoKlJ6sI1LuxA==
@@ -726,7 +726,7 @@ jmespath@0.15.0:
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
-jsonwebtoken@^8.3.0, jsonwebtoken@^8.5.0:
+jsonwebtoken@^8.3.0, jsonwebtoken@^8.4.0:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.0.tgz#ebd0ca2a69797816e1c5af65b6c759787252947e"
   integrity sha512-IqEycp0znWHNA11TpYi77bVgyBO/pGESDh7Ajhas+u0ttkGkKYIIAjniL4Bw5+oVejVF+SYkaI7XKfwCCyeTuA==
@@ -919,7 +919,7 @@ prettier@1.14.3:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.3.tgz#90238dd4c0684b7edce5f83b0fb7328e48bd0895"
   integrity sha512-qZDVnCrnpsRJJq5nSsiHCE3BYMED2OtsI+cmzIzF1QIfqm5ALf8tEJcO27zV1gKNKRPdhjO0dNWnrzssDQ1tFg==
 
-prisma-client-lib@^1.27.4:
+prisma-client-lib@^1.25.4:
   version "1.27.4"
   resolved "https://registry.yarnpkg.com/prisma-client-lib/-/prisma-client-lib-1.27.4.tgz#7e355b716001e5bd5fa161ed4aadec8bf56588a3"
   integrity sha512-K71+o8GNxEu/czAZBO8rMrX+NjkL5PMbbwOSw1+AGBI82GzkpKwYYq6Hv4hO/wMcIHFMOnmwygYijE8k3DxIBQ==

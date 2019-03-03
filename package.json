@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node src/index"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "graphql-yoga": "^1.17.4",
-    "jsonwebtoken": "^8.5.0",
-    "prisma-client-lib": "^1.27.4"
+    "graphql-yoga": "^1.17.2",
+    "jsonwebtoken": "^8.4.0",
+    "prisma-client-lib": "^1.25.4"
   }
 }
