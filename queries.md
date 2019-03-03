@@ -84,3 +84,28 @@ mutation {
     }
   }
 }
+
+query {
+  feed(filter:"QL") {
+    id
+  	description
+    url
+    postedBy {
+      id
+      name
+    }
+  }
+}
+
+pagination
+
+query {
+  feed(
+    first: 1
+    skip: 1
+  ) {
+    id
+    description
+    url
+  }
+}
