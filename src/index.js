@@ -1,5 +1,9 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { prisma } = require('./generated/prisma-client')
+const Query = require('./resolvers/Query')
+const Mutation = require('./resolvers/Mutation')
+const User = require('./resolvers/User')
+const Link = require('./resolvers/Link')
 
 // links variable is used to store the links at runtime.
 let links = [{
@@ -22,26 +26,21 @@ let idCount = links.length
 
 //As arguments, you’re passing the data that the resolvers receive via the args parameter.
 const resolvers = {
-  Mutation: {
-    post: (root, args, context) => {
-      return context.prisma.createLink({
-        url: args.url,
-        description: args.description,
-      })
-    },
-  },
-
-  Link: {
-    id: (parent) => parent.id,
-    description: (parent) => parent.description,
-    url: (parent) => parent.url,
-  }
+  Query,
+  Mutation,
+  User,
+  Link
 }
 
-const server = new GraphQLServer ( {
+const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
-  context: {prisma},
+  context: request => {
+    return {
+      ...request,
+      prisma,
+    }
+  },
 })
 
 server.start(() => console.log(` Server is running on http://localhost:4000`))
