@@ -3,7 +3,7 @@
 ### 1. Clone repository & install dependencies
 
 ```sh
-git clone 
+git clone
 cd project
 yarn install # or `npm install`
 ```
@@ -55,3 +55,6 @@ Prisma Blog: The blog regularly features new and interesting content about Graph
 GraphQL Weekly: A weekly GraphQL newsletter with news from the GraphQL ecosystem
 GraphQL Conf: The world’s biggest gathering of GraphQL enthusiasts happening in the heart of Berlin
 Prisma Slack: A Slack team with vivid discussions around everything GraphQL & Prisma
+
+
+add branch
