@@ -4,7 +4,7 @@
 
 ```sh
 git clone 
-cd graphql-js
+cd project
 yarn install # or `npm install`
 ```
 
