@@ -51,3 +51,11 @@ enum LinkOrderByInput {
   createdAt_ASC
   createdAt_DESC
 }
+
+query {
+  feed {
+    id
+    url
+    description
+  }
+}
